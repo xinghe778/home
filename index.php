@@ -82,7 +82,7 @@ include('header.php');
                     <i class="far fa-heart"></i>
                 </div>
                 <div class="project-image">
-                    <img src="https://admin.spanstar.cn/dashboard.png" alt="展示">
+                    <img src="" alt="展示">
                 </div>
                 <div class="project-content">
                     <h3>Qianshan财务系统</h3>
@@ -111,7 +111,7 @@ include('header.php');
                 <i class="fab fa-github"></i>
                 <span>GitHub</span>
             </a>
-            <a href="Fuzhen88962" target="_blank" class="social-card tencent">
+            <a href="" target="_blank" class="social-card tencent">
                 <i class="fa-brands fa-weixin"></i></i>
                 <span>WeChat</span>
             </a>
@@ -123,11 +123,11 @@ include('header.php');
                 <i class="fab fa-instagram"></i>
                 <span>Instagram</span>
             </a>
-            <a href="mailto:fuzhen@88.cn" class="social-card email">
+            <a href="" class="social-card email">
                 <i class="fas fa-envelope"></i>
                 <span>Email Me</span>
             </a>
-            <a href="https://blog.spanstar.cn" target="_blank" class="social-card website">
+            <a href="" target="_blank" class="social-card website">
                 <i class="fas fa-globe"></i>
                 <span>My Site</span>
             </a>
@@ -142,8 +142,8 @@ include('header.php');
                     <img src="https://xiaoqianlan.com/favicon.ico" alt="友链头像" />
                 </div>
                 <div class="friend-info">
-                    <h4>浅蓝的小窝</h4>
-                    <p>一名沉迷轻小说漫画动漫二次元游戏的自宅警备员，热爱Tech和ACG文化，生活中的一只小透明。</p>
+                    <h4>等待添加</h4>
+                    <p>1</p>
                 </div>
             </a>
             <a href="#" target="_blank" class="friend-card">
@@ -152,7 +152,7 @@ include('header.php');
                 </div>
                 <div class="friend-info">
                     <h4>等待添加</h4>
-                    <p>博客像云朵一样轻盈☁️</p>
+                    <p>2☁</p>
                 </div>
             </a>
             <a href="#" target="_blank" class="friend-card">
@@ -161,7 +161,7 @@ include('header.php');
                 </div>
                 <div class="friend-info">
                     <h4>等待添加</h4>
-                    <p>代码森林探险家🌲</p>
+                    <p>3</p>
                 </div>
             </a>
         </div>
