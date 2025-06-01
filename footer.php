@@ -12,14 +12,14 @@
             <p class="license-info">
                 <a href="https://beian.mit.gov.com" class="beian-link">
                     <i class="fas fa-shield-alt"></i>
-                    <span class="beian-text">皖ICP备2024037265号</span>
+                    <span class="beian-text">备案号</span>
                 </a>
                 <a href="https://beian.mps.gov.cn/#/query/webSearch?code=34150202000410" 
                    class="gongan-link" 
                    target="_blank" 
                    rel="noreferrer">
                     <img src="gonganbeian.png" alt="公安备案图标" class="gongan-icon">
-                    <span class="gongan-text">皖公网安备34150202000410号</span>
+                    <span class="gongan-text">公安备案号</span>
                 </a>
             </p>
         </div>
@@ -81,7 +81,6 @@
          const userTheme = localStorage.getItem('userTheme');
 
           if (userTheme) {
-          // 如果用户有偏好，优先使用用户设置
             applyTheme(userTheme);
           } else {
            // 否则根据时间自动切换
@@ -164,8 +163,6 @@
             bubble.style.width = bubble.style.height = `${Math.random() * 20 + 10}px`;
             bubble.style.animationDuration = `${Math.random() * 5 + 5}s`;
             document.body.appendChild(bubble);
-
-            // 8秒后移除
             setTimeout(() => bubble.remove(), 8000);
         }
 
