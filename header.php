@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <title>Xinghe&^小屋</title>
+    <title>^小屋</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&family=Kalam:wght@300;700&display=swap" rel="stylesheet">
     <!-- Icons -->
