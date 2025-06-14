@@ -4,7 +4,7 @@
         <div class="footer-left">
             <p class="copyright">CopyRight
                 &copy;2024-<?php echo date('Y') ?>
-                <span class="author">xinghe's World</span>
+                <span class="author"><?=$setting['site_name']?></span>
             </p>
         </div>
         
@@ -12,14 +12,14 @@
             <p class="license-info">
                 <a href="https://beian.mit.gov.com" class="beian-link">
                     <i class="fas fa-shield-alt"></i>
-                    <span class="beian-text">备案号</span>
+                    <span class="beian-text"><?=$setting['icp_number']?></span>
                 </a>
                 <a href="https://beian.mps.gov.cn/#/query/webSearch?code=34150202000410" 
                    class="gongan-link" 
                    target="_blank" 
                    rel="noreferrer">
-                    <img src="gonganbeian.png" alt="公安备案图标" class="gongan-icon">
-                    <span class="gongan-text">公安备案号</span>
+                    <img src="assets/gonganbeian.png" alt="公安备案图标" class="gongan-icon">
+                    <span class="gongan-text"><?=$setting['police_icp']?></span>
                 </a>
             </p>
         </div>
@@ -81,6 +81,7 @@
          const userTheme = localStorage.getItem('userTheme');
 
           if (userTheme) {
+          // 如果用户有偏好，优先使用用户设置
             applyTheme(userTheme);
           } else {
            // 否则根据时间自动切换
@@ -163,6 +164,8 @@
             bubble.style.width = bubble.style.height = `${Math.random() * 20 + 10}px`;
             bubble.style.animationDuration = `${Math.random() * 5 + 5}s`;
             document.body.appendChild(bubble);
+
+            // 8秒后移除
             setTimeout(() => bubble.remove(), 8000);
         }
 

@@ -5,7 +5,7 @@ include('header.php');
         <div class="avatar animate-float">
             <img src="http://q.qlogo.cn/headimg_dl?dst_uin=2931468138&spec=640&img_type=jpg" alt="qianshan" style="border-radius: 50%; width: 100px;">
         </div>
-        <h1>你好呀！我是Xinghe</h1>
+        <h1>你好呀！我是<?=$setting['site_author']?></h1>
         <div class="typewriter" id="typewriter"></div>
         <button class="cta-button">下载我的简历</button>
     </section>
@@ -19,7 +19,7 @@ include('header.php');
                 <p>最好来点养生茶</p>
             </div>
             <div class="about-image">
-                <img src="chutian.png" alt="插画" style="width: 320px;">
+                <img src="assets/chutian.png" alt="插画" style="width: 320px;">
             </div>
         </div>
     </section>
@@ -27,143 +27,90 @@ include('header.php');
     <section class="section" id="skills">
         <h2>技能树 🌱</h2>
         <div class="skills-grid">
+            <?php while($skill = $stmt_skills->fetch(PDO::FETCH_ASSOC)): ?>
             <div class="skill-card">
-                <div class="skill-icon"><i class="fas fa-code"></i></div>
-                <h3>前端开发</h3>
-                <p>Python / Vue / JavaScript / HTML / CSS / PHP</p>
+                <div class="skill-icon"><i class="<?=htmlspecialchars($skill['icon'])?>"></i></div>
+                <h3><?=htmlspecialchars($skill['title'])?></h3>
+                <p><?=htmlspecialchars($skill['description'])?></p>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="--progress: 85%"></div>
+                    <div class="progress-fill" style="--progress: <?=$skill['percentage']?>%"></div>
                 </div>
             </div>
-            <div class="skill-card">
-                <div class="skill-icon"><i class="fas fa-paint-roller"></i></div>
-                <h3>传统文化</h3>
-                <p>正骨 / 脉诊 / 针灸 / 相面 / 养生 / 减肥 / 玄学</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="--progress: 75%"></div>
-                </div>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon"><i class="fas fa-cube"></i></div>
-                <h3>体育运动</h3>
-                <p>滑板 / 篮球 / 足球 / 羽毛球 / 骑行 </p>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="--progress: 65%"></div>
-                </div>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon"><i class="fas fa-music"></i></div>
-                <h3>其他爱好</h3>
-                <p>机车 / 音乐制作 / 吉他 / 音乐节 / 美食</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="--progress: 90%"></div>
-                </div>
-            </div>
+            <?php endwhile; ?>
         </div>
     </section>
 
     <section class="section" id="projects">
         <h2>趣味项目 🎨</h2>
-        <div class="projects-grid">
+         <div class="projects-grid">
+            <?php while($project = $stmt_projects->fetch(PDO::FETCH_ASSOC)): ?>
             <div class="project-card">
                 <div class="project-like" onclick="toggleLike(this)">
                     <i class="far fa-heart"></i>
                 </div>
                 <div class="project-image">
-                    <img src="chutian.png" alt="AI助手">
+                    <img src="<?=htmlspecialchars($project['image_url'])?>" alt="<?=htmlspecialchars($project['name'])?>">
                 </div>
                 <div class="project-content">
-                    <h3>AI助手</h3>
-                    <p>帮助用户快速回复访问者问题,解决消息滞后.</p>
+                    <h3><?=htmlspecialchars($project['name'])?></h3>
+                    <p><?=htmlspecialchars($project['description'])?></p>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-like" onclick="toggleLike(this)">
-                    <i class="far fa-heart"></i>
-                </div>
-                <div class="project-image">
-                    <img src="" alt="展示">
-                </div>
-                <div class="project-content">
-                    <h3>Qianshan财务系统</h3>
-                    <p>打造轻量级记账系统</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-like" onclick="toggleLike(this)">
-                    <i class="far fa-heart"></i>
-                </div>
-                <div class="project-image">
-                    <img src="rixiangchutian.png" alt="音乐可视化">
-                </div>
-                <div class="project-content">
-                    <h3>音乐可视化</h3>
-                    <p>随节奏跳动的波形图谱，让音乐看得见</p>
-                </div>
-            </div>
+            <?php endwhile; ?>
         </div>
     </section>
 
-    <section class="section" id="social">
-        <h2>我的社交星球 🌐</h2>
-        <div class="social-grid">
-            <a href="https://github.com/yourname" target="_blank" class="social-card github">
+   <section class="section" id="social">
+    <h2>我的社交星球 🌐</h2>
+    <div class="social-grid">
+        <?php if (!empty($socialLinks)): ?>
+            <?php foreach ($socialLinks as $link): ?>
+                <?php
+                    $icon = htmlspecialchars($link['icon'] ?? '');
+                    $url = htmlspecialchars($link['url'] ?? '#');
+                    $name = htmlspecialchars($link['name'] ?? '');
+                    // 特殊处理微信链接
+                    if (stripos($name, 'wechat') !== false || stripos($name, '微信') !== false) {
+                        $url = "javascript:alert('{$url}')";
+                    }
+                ?>
+                <a href="<?= $url ?>" target="_blank" class="social-card <?= strtolower($name) ?>">
+                    <i class="<?= $icon ?>"></i>
+                    <span><?= $name ?></span>
+                </a>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <!-- 默认社交链接 -->
+            <a href="https://github.com/xinghe778" target="_blank" class="social-card github">
                 <i class="fab fa-github"></i>
                 <span>GitHub</span>
             </a>
-            <a href="" target="_blank" class="social-card tencent">
-                <i class="fa-brands fa-weixin"></i></i>
+            <a href="javascript:alert('Fuzhen88962')" class="social-card tencent">
+                <i class="fa-brands fa-weixin"></i>
                 <span>WeChat</span>
             </a>
-            <a href="https://twitter.com/yourname" target="_blank" class="social-card twitter">
-                <i class="fab fa-twitter"></i>
-                <span>Twitter</span>
-            </a>
-            <a href="https://instagram.com/yourname" target="_blank" class="social-card instagram">
-                <i class="fab fa-instagram"></i>
-                <span>Instagram</span>
-            </a>
-            <a href="" class="social-card email">
+            <a href="mailto:fuzhen@88.cn" class="social-card email">
                 <i class="fas fa-envelope"></i>
                 <span>Email Me</span>
             </a>
-            <a href="" target="_blank" class="social-card website">
-                <i class="fas fa-globe"></i>
-                <span>My Site</span>
-            </a>
-        </div>
-    </section>
+        <?php endif; ?>
+    </div>
+</section>
 
     <section class="section" id="friends">
         <h2>我的小伙伴 🧸</h2>
         <div class="friends-grid">
-            <a href="https://xiaoqianlan.com/" target="_blank" class="friend-card">
+            <?php while($friend = $stmt_friends->fetch(PDO::FETCH_ASSOC)): ?>
+            <a href="<?=htmlspecialchars($friend['url'])?>" target="_blank" class="friend-card">
                 <div class="friend-avatar">
-                    <img src="https://xiaoqianlan.com/favicon.ico" alt="友链头像" />
+                    <img src="<?=htmlspecialchars($friend['avatar_url'])?>" alt="<?=$friend['name']?>" />
                 </div>
                 <div class="friend-info">
-                    <h4>等待添加</h4>
-                    <p>1</p>
+                    <h4><?=htmlspecialchars($friend['name'])?></h4>
+                    <p><?=htmlspecialchars($friend['description'])?></p>
                 </div>
             </a>
-            <a href="#" target="_blank" class="friend-card">
-                <div class="friend-avatar">
-                    <img src="g.jpg" alt="友链头像" />
-                </div>
-                <div class="friend-info">
-                    <h4>等待添加</h4>
-                    <p>2☁</p>
-                </div>
-            </a>
-            <a href="#" target="_blank" class="friend-card">
-                <div class="friend-avatar">
-                    <img src="g.jpg" alt="友链头像" />
-                </div>
-                <div class="friend-info">
-                    <h4>等待添加</h4>
-                    <p>3</p>
-                </div>
-            </a>
+            <?php endwhile; ?>
         </div>
     </section>
 <?php 

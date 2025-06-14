@@ -1,10 +1,35 @@
+<?php
+include 'includes/db.php'; // 数据库连接
+
+// 获取站点设置
+$stmt = $pdo->query("SELECT * FROM settings LIMIT 1");
+$setting = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// 获取技能数据
+$stmt_skills = $pdo->query("SELECT * FROM skills ORDER BY id ASC");
+
+// 获取项目数据
+$stmt_projects = $pdo->query("SELECT * FROM projects ORDER BY id DESC");
+
+// 获取友链数据
+$stmt_friends = $pdo->query("SELECT * FROM friends ORDER BY id ASC");
+
+    // 确保社交链接被正确解析
+$socialLinks = [];
+if (!empty($setting['social_links'])) {
+    $socialLinks = json_decode($setting['social_links'], true);
+    if (!is_array($socialLinks)) {
+        $socialLinks = [];
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <title>^小屋</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+<title><?=$setting['site_name']?></title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&family=Kalam:wght@300;700&display=swap" rel="stylesheet">
     <!-- Icons -->
@@ -727,7 +752,7 @@
     <canvas class="particles" id="particles-canvas"></canvas>
 
     <header>
-        <div class="logo">✨ Xinghe Magic House ✨</div>
+        <div class="logo">✨ <?=$setting['site_author']?>Magic House ✨</div>
         <nav>
             <a href="#about">关于</a>
             <a href="#skills">技能</a>
