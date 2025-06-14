@@ -2,9 +2,9 @@
 // 数据库配置
 $host = 'localhost';
 $port = "3306";
-$dbname = 'home1';
-$username = 'home1';
-$password = 'mBL8iRSTkfNMaxEY';
+$dbname = '';
+$username = '';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
