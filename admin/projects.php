@@ -69,7 +69,7 @@ if ($edit_mode) {
     $project_data = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// 包含header.php（现在可以安全输出了）
+// 包含header.php
 require_once '../includes/header.php';
 ?>
 
@@ -513,7 +513,6 @@ require_once '../includes/header.php';
 </div>
 
 <script>
-    // 修复添加项目按钮功能
     document.getElementById('addProjectBtn').addEventListener('click', function() {
         const form = document.getElementById('projectForm');
         
