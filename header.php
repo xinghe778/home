@@ -13,8 +13,6 @@ $stmt_projects = $pdo->query("SELECT * FROM projects ORDER BY id DESC");
 
 // 获取友链数据
 $stmt_friends = $pdo->query("SELECT * FROM friends ORDER BY id ASC");
-
-    // 确保社交链接被正确解析
 $socialLinks = [];
 if (!empty($setting['social_links'])) {
     $socialLinks = json_decode($setting['social_links'], true);
