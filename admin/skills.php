@@ -5,7 +5,7 @@ ob_start();
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 
-// 检查登录状态（必须在任何输出之前）
+// 检查登录状态
 if (!is_logged_in()) {
     header('Location: login.php');
     exit;
@@ -67,7 +67,7 @@ if ($edit_mode) {
     $skill_data = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// 包含header.php（现在可以安全输出了）
+// 包含header.php
 require_once '../includes/header.php';
 ?>
 <style>
@@ -531,7 +531,6 @@ require_once '../includes/header.php';
 </div>
 
 <script>
-    // 修复添加技能按钮功能
     document.getElementById('addSkillBtn').addEventListener('click', function() {
         const form = document.getElementById('skillForm');
         
