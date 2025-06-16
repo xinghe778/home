@@ -3,7 +3,7 @@ include('header.php');
 ?>
     <section class="hero">
         <div class="avatar animate-float">
-            <img src="http://q.qlogo.cn/headimg_dl?dst_uin=2931468138&spec=640&img_type=jpg" alt="qianshan" style="border-radius: 50%; width: 100px;">
+            <img src="http://q.qlogo.cn/headimg_dl?dst_uin=<?=$setting['author_qq']?>&spec=640&img_type=jpg" alt="qianshan" style="border-radius: 50%; width: 100px;">
         </div>
         <h1>你好呀！我是<?=$setting['site_author']?></h1>
         <div class="typewriter" id="typewriter"></div>
