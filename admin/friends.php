@@ -5,7 +5,7 @@ ob_start();
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 
-// 检查登录状态（必须在任何输出之前）
+// 检查登录状态
 if (!is_logged_in()) {
     header('Location: login.php');
     exit;
@@ -69,7 +69,7 @@ if ($edit_mode) {
     $friend_data = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// 包含header.php（现在可以安全输出了）
+// 包含header.php
 require_once '../includes/header.php';
 ?>
 <style>
@@ -484,7 +484,6 @@ require_once '../includes/header.php';
 </div>
 
 <script>
-    // 修复添加友链按钮功能
     document.getElementById('addFriendBtn').addEventListener('click', function() {
         const form = document.getElementById('friendForm');
         
