@@ -17,7 +17,7 @@ V2.0
 创建管理员请进入admin/add_user.php页面
 
 
-创建后请立即删除改页面
+创建后请立即删除该页面
 ![5553474c87cd61059d6a4aeeb2aab34](https://github.com/user-attachments/assets/15b98e94-44e2-455f-8077-e59921a230d7)
 ![75990cc2cfb30c2b0706dae294bb3bc](https://github.com/user-attachments/assets/bd80bbe1-0fc8-42b4-9d80-3309ea17c7c9)
 ![18620d552033dc2503a67826d9c7d53](https://github.com/user-attachments/assets/cea5885a-982b-4923-b4e6-297a1aaf2831)
