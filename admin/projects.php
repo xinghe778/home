@@ -5,7 +5,7 @@ ob_start();
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 
-// 检查登录状态（必须在任何输出之前）
+// 检查登录状态
 if (!is_logged_in()) {
     header('Location: login.php');
     exit;
