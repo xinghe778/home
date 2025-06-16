@@ -10,12 +10,12 @@ if (!is_logged_in()) {
 // 初始化错误消息
 $error = '';
 
-// 获取当前设置（确保只有一条记录）
+// 获取当前设置
 try {
     $settings_stmt = $pdo->query("SELECT * FROM settings ORDER BY id DESC LIMIT 1");
     $settings = $settings_stmt->fetch(PDO::FETCH_ASSOC);
     
-    // 如果没有记录，创建默认设置
+    // 创建默认设置
     if (!$settings) {
         $stmt = $pdo->prepare("INSERT INTO settings (site_name) VALUES (?)");
         $stmt->execute(['我的个人网站']);
@@ -60,12 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 转换为JSON格式
         $social_links_json = json_encode($social_links, JSON_UNESCAPED_UNICODE);
         
-        // 确保设置记录存在（关键修改：移除插入分支）
+        // 确保设置记录存在
         if (!$settings) {
             throw new Exception("系统设置尚未初始化");
         }
-
-        // 关键修改：直接更新现有记录
         $stmt = $pdo->prepare("UPDATE settings SET 
             site_name = ?, 
             site_author = ?, 
@@ -113,8 +111,6 @@ if (!empty($settings['social_links'])) {
         error_log("JSON解析错误: " . json_last_error_msg());
     }
 }
-
-// 如果没有社交链接，添加一个空项
 if (empty($social_links)) {
     $social_links[] = ['name' => '', 'url' => '', 'icon' => ''];
 }
@@ -124,7 +120,6 @@ require_once '../includes/header.php';
 ?>
 
 <style>
-    /* ================ 全局样式 ================ */
     .settings-container {
         max-width: 900px;
         margin: 30px auto;
@@ -189,7 +184,6 @@ require_once '../includes/header.php';
         line-height: 1.6;
     }
     
-    /* ================ 表单区域 ================ */
     .settings-form {
         padding: 35px 40px;
     }
@@ -279,7 +273,6 @@ require_once '../includes/header.php';
         background: white;
     }
     
-    /* ================ 社交链接部分 ================ */
     .social-links-section {
         background: rgba(142, 197, 252, 0.06);
         padding: 30px;
@@ -364,7 +357,6 @@ require_once '../includes/header.php';
         transform: translateY(1px);
     }
     
-    /* ================ 操作按钮 ================ */
     .form-actions {
         display: flex;
         justify-content: center;
@@ -418,7 +410,6 @@ require_once '../includes/header.php';
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
     
-    /* ================ 成功消息 ================ */
     .floating-notification {
         position: fixed;
         top: 30px;
@@ -460,7 +451,6 @@ require_once '../includes/header.php';
         font-size: 1rem;
     }
     
-    /* ================ 响应式设计 ================ */
     @media (max-width: 768px) {
         .settings-container {
             margin: 15px;
