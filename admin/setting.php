@@ -10,6 +10,22 @@ if (!is_logged_in()) {
 // 初始化错误消息
 $error = '';
 
+// 获取当前设置（确保只有一条记录）
+try {
+    $settings_stmt = $pdo->query("SELECT * FROM settings ORDER BY id DESC LIMIT 1");
+    $settings = $settings_stmt->fetch(PDO::FETCH_ASSOC);
+    
+    // 如果没有记录，创建默认设置
+    if (!$settings) {
+        $stmt = $pdo->prepare("INSERT INTO settings (site_name) VALUES (?)");
+        $stmt->execute(['我的个人网站']);
+        $settings = $pdo->query("SELECT * FROM settings ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+    }
+} catch (PDOException $e) {
+    error_log("获取设置失败: " . $e->getMessage());
+    $error = "获取设置失败: " . $e->getMessage();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // 获取并验证表单数据
@@ -44,43 +60,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 转换为JSON格式
         $social_links_json = json_encode($social_links, JSON_UNESCAPED_UNICODE);
         
-        // 如果没有现有设置则插入新记录
+        // 确保设置记录存在（关键修改：移除插入分支）
         if (!$settings) {
-            $stmt = $pdo->prepare("INSERT INTO settings 
-                (site_name, site_author, author_qq, icp_number, police_icp, social_links) 
-                VALUES (?, ?, ?, ?, ?, ?)");
-                
-            $stmt->execute([
-                $site_name, 
-                $site_author, 
-                $author_qq, 
-                $icp_number, 
-                $police_icp, 
-                $social_links_json
-            ]);
+            throw new Exception("系统设置尚未初始化");
+        }
+
+        // 关键修改：直接更新现有记录
+        $stmt = $pdo->prepare("UPDATE settings SET 
+            site_name = ?, 
+            site_author = ?, 
+            author_qq = ?, 
+            icp_number = ?, 
+            police_icp = ?, 
+            social_links = ? 
+            WHERE id = ?");
             
-            // 获取新插入的记录ID
-            $settings_id = $pdo->lastInsertId();
-        } else {
-            // 更新现有设置
-            $stmt = $pdo->prepare("UPDATE settings SET 
-                site_name = ?, 
-                site_author = ?, 
-                author_qq = ?, 
-                icp_number = ?, 
-                police_icp = ?, 
-                social_links = ? 
-                WHERE id = ?");
-                
-            $stmt->execute([
-                $site_name, 
-                $site_author, 
-                $author_qq, 
-                $icp_number, 
-                $police_icp, 
-                $social_links_json,
-                $settings['id']
-            ]);
+        $result = $stmt->execute([
+            $site_name, 
+            $site_author, 
+            $author_qq, 
+            $icp_number, 
+            $police_icp, 
+            $social_links_json,
+            $settings['id']
+        ]);
+
+        if (!$result) {
+            throw new Exception("保存失败，请重试");
         }
         
         // 重定向到成功页面
@@ -90,26 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (PDOException $e) {
         // 记录数据库错误
         error_log("数据库错误: " . $e->getMessage());
-        $error = "数据库写入失败: " . $e->getMessage();
+        $error = "保存失败: " . $e->getMessage();
     } catch (Exception $e) {
         // 处理其他错误
         $error = $e->getMessage();
     }
-}
-
-// 获取当前设置
-try {
-    $settings_stmt = $pdo->query("SELECT * FROM settings ORDER BY id DESC LIMIT 1");
-    $settings = $settings_stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if (!$settings) {
-        $pdo->query("INSERT INTO settings (site_name) VALUES ('我的个人网站')");
-        $settings_stmt = $pdo->query("SELECT * FROM settings ORDER BY id DESC LIMIT 1");
-        $settings = $settings_stmt->fetch(PDO::FETCH_ASSOC);
-    }
-} catch (PDOException $e) {
-    error_log("获取设置失败: " . $e->getMessage());
-    $error = "获取设置失败: " . $e->getMessage();
 }
 
 // 解析社交链接
